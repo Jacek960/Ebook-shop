@@ -14,12 +14,12 @@
         {% endfor %}
     </li>
     <li>Cena: {{ object.price }}</li>
-    <li>Stawka Vat: {{ object.vat }}</li>
+    <li>Stawka Vat: {{ object.vat_string }}</li>
     <li>Cena brutto: {{ object.price_brutto }}</li>
     <li>Wydawca: {{ object.publisher }}</li>
-    <li>Okładka: {{ object.image }}</li>
+    <img src="{{ object.image.url }}" >
+
 
 
 </ul>
-
 

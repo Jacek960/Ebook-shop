@@ -88,5 +88,15 @@ class Ebook(models.Model):
         price_discount_added = self.price_brutto - discount
         return price_discount_added
 
+    def vat_string(self):
+        if self.vat == 0:
+            return '0 %'
+        elif self.vat == 1:
+            return "5 %"
+        elif self.vat == 2:
+            return '8 %'
+        elif self.vat == 3:
+            return '23 %'
+
     def __str__(self):
         return self.name

@@ -1,3 +1,7 @@
 venv/
 .idea/
 shop/__pycache__/
+books/__pycache__/
+ad_image/
+books/migrations/__pycache__/
+uploads/
