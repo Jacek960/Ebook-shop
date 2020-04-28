@@ -1,0 +1,25 @@
+<h2>Produkt details</h2>
+<ul>
+    {{ object }}
+    <li>Tytuł: {{ object.name }}</li>
+    <li>Autor: {{ object.autor }}</li>
+    <li>format:
+        {% for format in object.format.all %}
+            {{ format.name }},
+        {% endfor %}
+    </li>
+    <li>Gatunek:
+        {% for gendre in object.gendre.all %}
+            {{ gendre.name }}
+        {% endfor %}
+    </li>
+    <li>Cena: {{ object.price }}</li>
+    <li>Stawka Vat: {{ object.vat }}</li>
+    <li>Cena brutto: {{ object.price_brutto }}</li>
+    <li>Wydawca: {{ object.publisher }}</li>
+    <li>Okładka: {{ object.image }}</li>
+
+
+</ul>
+
+

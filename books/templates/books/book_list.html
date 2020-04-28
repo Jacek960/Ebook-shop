@@ -1,0 +1,10 @@
+
+<h2>Lista ksiazek </h2>
+    <ul>
+        {% for ebook in object_list %}
+        <li><a href="{% url 'ebook_details' ebook.slug %} ">{{ ebook.name}}</a>
+        {% endfor %}
+    </ul>
+
+
+
