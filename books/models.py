@@ -84,9 +84,29 @@ class Ebook(models.Model):
             return float(self.price) * 1.23
 
     def price_brutto_discount(self):
-        discount = self.price_brutto * self.discount_percent
-        price_discount_added = self.price_brutto - discount
-        return price_discount_added
+        discount = float(self.price) * (float(self.discount_percent)/100)
+        price_discount_added = float(self.price) - float(discount)
+        if self.vat == 0:
+            return price_discount_added
+        elif self.vat == 1:
+            return price_discount_added * 1.05
+        elif self.vat == 2:
+            return price_discount_added * 1.08
+        elif self.vat == 3:
+            return price_discount_added * 1.23
+
+    # def price_netto_discount(self):
+    #     discount = float(self.price) * (float(self.discount_percent)/100)
+    #     price_discount_added = float(self.price) - float(discount)
+    #     if self.vat == 0:
+    #         return price_discount_added
+    #     elif self.vat == 1:
+    #         return price_discount_added * 1.05
+    #     elif self.vat == 2:
+    #         return price_discount_added * 1.08
+    #     elif self.vat == 3:
+    #         return price_discount_added * 1.23
+
 
     def vat_string(self):
         if self.vat == 0:

@@ -13,13 +13,21 @@
             {{ gendre.name }}
         {% endfor %}
     </li>
-    <li>Cena: {{ object.price }}</li>
-    <li>Stawka Vat: {{ object.vat_string }}</li>
-    <li>Cena brutto: {{ object.price_brutto }}</li>
+    {% if object.discount_percent > 0 %}
+    {% endif %}
+    {% if object.discount_percent > 0 %}
+        <li>Cena: <strike>{{ object.price_brutto }}</strike> zł</li>
+        <li style="color:red">Cena: {{ object.price_brutto_discount|floatformat:2 }} zł</li>
+    {% elif object.discount_percent == 0 %}
+        <li>Cena brutto: {{ object.price_brutto }}</li>
+    {% endif %}
     <li>Wydawca: {{ object.publisher }}</li>
-    <img src="{{ object.image.url }}" >
-
-
+    <li>Opis: {{ object.description }}</li>
+    <img src="{{ object.image.url }}">
 
 </ul>
+{% if request.user.is_authenticated and request.user.is_staff %}
+    <a href="{% url 'edit-ebook' ebook.pk %}"><sub>edytuj</sub> </a>
+    <a href="{% url 'delete-ebook' ebook.pk %}"><sub>usuń</sub> </a>
 
+{% endif %}
