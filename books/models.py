@@ -67,6 +67,7 @@ class Ebook(models.Model):
     image = models.ImageField(upload_to='ad_image/', blank=True, null=True)
     file_upload_1 = models.FileField(upload_to='uploads/')
     file_upload_2 = models.FileField(upload_to='uploads/')
+    created = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if not self.slug  and self.name and self.autor:

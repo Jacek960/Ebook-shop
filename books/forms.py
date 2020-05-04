@@ -6,10 +6,6 @@ class EbookForm(forms.ModelForm):
     class Meta:
         model=Ebook
         fields = ['name','description','autor','publisher','gendre','price','vat','discount_percent','format','image','file_upload_1','file_upload_2']
-        # widgets={
-        #     'advantages':forms.CheckboxSelectMultiple,
-        #     'surroundings': forms.CheckboxSelectMultiple,
-        # }
         labels = {
             'name':'Tytuł',
             'description': 'Opis',

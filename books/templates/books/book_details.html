@@ -1,33 +1,129 @@
-<h2>Produkt details</h2>
-<ul>
-    {{ object }}
-    <li>Tytuł: {{ object.name }}</li>
-    <li>Autor: {{ object.autor }}</li>
-    <li>format:
-        {% for format in object.format.all %}
-            {{ format.name }},
-        {% endfor %}
-    </li>
-    <li>Gatunek:
-        {% for gendre in object.gendre.all %}
-            {{ gendre.name }}
-        {% endfor %}
-    </li>
-    {% if object.discount_percent > 0 %}
-    {% endif %}
-    {% if object.discount_percent > 0 %}
-        <li>Cena: <strike>{{ object.price_brutto }}</strike> zł</li>
-        <li style="color:red">Cena: {{ object.price_brutto_discount|floatformat:2 }} zł</li>
-    {% elif object.discount_percent == 0 %}
-        <li>Cena brutto: {{ object.price_brutto }}</li>
-    {% endif %}
-    <li>Wydawca: {{ object.publisher }}</li>
-    <li>Opis: {{ object.description }}</li>
-    <img src="{{ object.image.url }}">
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <br>
+        <br>
 
-</ul>
-{% if request.user.is_authenticated and request.user.is_staff %}
-    <a href="{% url 'edit-ebook' ebook.pk %}"><sub>edytuj</sub> </a>
-    <a href="{% url 'delete-ebook' ebook.pk %}"><sub>usuń</sub> </a>
+        <div class="row">
+            <div class="col-sm-4">
+                <p>Tutaj bedzie cos???</p>
 
-{% endif %}
+
+            </div>
+            <div class="col-sm-8">
+                <div class="card mb" style="max-width: 840px;padding: 10px">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="{{ object.image.url }}" class="card-img" alt="..." style="max-width: 157px;">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                {% if object.discount_percent > 0 %}
+                                     <a id="promotion" href="/">Promocja</a>
+                                            {% endif %}
+                                <h2 class="card-title">{{ object.name }}</h2>
+                                <div class="row">
+                                    <div class="col-8">
+
+                                        <table style="width:100%">
+                                            <tr>
+
+                                                <td>Autor:</td>
+                                                <td><strong>{{ object.autor }}</strong></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Gatunek:</td>
+                                                <td>
+                                                    {% for gendre in object.gendre.all %}
+                                                        {{ gendre.name }}
+                                                    {% endfor %}
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>Wydawca:</td>
+                                                <td>{{ object.publisher }}</td>
+
+                                            </tr>
+                                            <tr>
+
+                                                <td>Format:</td>
+                                                <td>
+                                                    {% for format in object.format.all %}
+                                                        {{ format.name }},
+                                                    {% endfor %}
+                                                </td>
+
+                                            </tr>
+{#                                            {% if object.discount_percent > 0 %}#}
+{#                                            {% endif %}#}
+                                            {% if object.discount_percent > 0 %}
+                                                <tr>
+
+                                                    <td>Cena:</td>
+                                                    <td>
+                                                        <small><strike>{{ object.price_brutto|floatformat:2 }}</strike>
+                                                            zł</small>
+                                                    </td>
+
+                                                </tr>
+                                                <tr>
+
+                                                    <td>Cena:</td>
+                                                    <td style="color:red"><big>{{ object.price_brutto_discount|floatformat:2 }}
+                                                        zł</big>
+                                                    </td>
+
+                                                </tr>
+                                            {% elif object.discount_percent == 0 %}
+                                                <tr>
+
+                                                    <td>Cena:</td>
+                                                    <td style="color:red"> {{ object.price_brutto|floatformat:2 }} zł
+                                                    </td>
+
+                                                </tr>
+
+                                            {% endif %}
+                                            <tr>
+                                                {% if request.user.is_authenticated and request.user.is_staff %}
+                                                    <td><a href="{% url 'edit-ebook' ebook.pk %}"><sub>edytuj</sub> </a>
+                                                    </td>
+                                                    <td><a href="{% url 'delete-ebook' ebook.pk %}"><sub>usuń</sub> </a>
+                                                    </td>
+                                                    </tr>
+
+                                                {% endif %}
+                                        </table>
+
+                                    </div>
+
+                                    <div class="col-4">
+                                     <a id="ad_to_cart" href="/">Do koszyka</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                                                            <h4>Opis:</h4>
+                <p>{{ object.description }}</p>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    {#   koniec karty #}
+
+
+
+
+
+
+
+{% endblock %}
