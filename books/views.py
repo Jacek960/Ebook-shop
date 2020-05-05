@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
 
-from books.forms import EbookForm, AuthorForm
+from books.forms import EbookForm, AuthorForm, SignUpForm
 from books.models import Ebook, Gendre
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
@@ -12,7 +12,7 @@ from django.views import generic
 
 
 class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
+    form_class = SignUpForm
     success_url = reverse_lazy('login')
     template_name = 'books/signup.html'
 
