@@ -19,7 +19,7 @@
                         <div class="col-md-8">
                             <div class="card-body">
                                 {% if object.discount_percent > 0 %}
-                                     <a id="promotion" href="/">Promocja</a>
+                                     <a id="promotion" href="{% url 'promo_ebook' %}">Promocja</a>
                                             {% endif %}
                                 <h2 class="card-title">{{ object.name }}</h2>
                                 <div class="row">
@@ -29,14 +29,14 @@
                                             <tr>
 
                                                 <td>Autor:</td>
-                                                <td><strong>{{ object.autor }}</strong></td>
+                                                <td><strong><a style="color: black" href="{% url 'ebook_author' object.autor.slug %}">{{ object.autor }}</a></strong></td>
 
                                             </tr>
                                             <tr>
                                                 <td>Gatunek:</td>
                                                 <td>
                                                     {% for gendre in object.gendre.all %}
-                                                        {{ gendre.name }}
+                                                        <a href="{% url 'ebook_gendre' gendre.slug %}">{{ gendre.name }}</a>,
                                                     {% endfor %}
                                                 </td>
                                             </tr>

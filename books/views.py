@@ -4,8 +4,8 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
 
-from books.forms import EbookForm, AuthorForm, SignUpForm
-from books.models import Ebook, Gendre
+from books.forms import EbookForm, AuthorForm, SignUpForm, GendreForm
+from books.models import Ebook, Gendre, Autor
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -65,6 +65,12 @@ class AuthorCreateView(PermissionRequiredMixin,CreateView):
     success_url = '/books/'
     permission_required = 'books.add_autor'
 
+class GendreCreateView(PermissionRequiredMixin,CreateView):
+    form_class = GendreForm
+    template_name = 'books/add_gendre_form.html'
+    success_url = '/books/'
+    permission_required = 'books.add_gendre'
+
 class EbookUpdate(PermissionRequiredMixin,UpdateView):
     model = Ebook
     form_class = EbookForm
@@ -77,3 +83,21 @@ class EbookDelete(PermissionRequiredMixin,DeleteView):
     template_name = 'books/ebook_delete.html'
     success_url = '/books/'
     permission_required = 'books.delete_ebook'
+
+class PromoBooksView(View):
+    def get(self,request):
+        promo_books=Ebook.objects.filter(discount_percent__gt=0)
+        return render(request,'books/promo_books.html',{'promo_books':promo_books})
+
+class AuthorBooksView(View):
+    def get(self,request,autor_slug=None):
+        autor_books = Ebook.objects.all()
+        if autor_slug:
+            autor = Autor.objects.get(slug=autor_slug)
+            autor_books=autor_books.filter(autor=autor)
+        return render(request, 'books/author_list.html', {'autor_books': autor_books})
+
+class NewBooksView(View):
+    def get(self,request):
+        new_books=Ebook.objects.order_by('-created')
+        return render(request,'books/new_books.html',{'new_books':new_books})

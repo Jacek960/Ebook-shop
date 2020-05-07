@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container">
+        <h2>Nowości </h2>
+        <ul>
+
+
+        </ul>
+
+
+        <div class="row row-cols-1 row-cols-md-5">
+
+            {% for ebook in new_books %}
+                <div class="col mb-4">
+                    <div class="card h-100">
+                    <a href="{% url 'ebook_details' ebook.slug %} ">
+                        <img src="{{ ebook.image.url }}" class="card-img-top" alt="..."
+
+                             style="max-width: 157px;display: block;margin: 0 auto;padding-top: 15px;"></a>
+                        <div class="card-body">
+                        <ul style="list-style-type:none;padding: 0;">
+                            <li style="text-align: center"><a
+                                    href="{% url 'ebook_details' ebook.slug %} ">{{ ebook.name }}</a></li>
+                            <li style="text-align: center">{{ ebook.autor }}</li>
+
+                        </ul>
+                        <table style="width:100%">
+                            {% if ebook.discount_percent > 0 %}
+
+                                <tr style="text-align: center">
+
+                                    <td>
+                                        <strike>{{ ebook.price_brutto|floatformat:2 }}</strike>
+                                        zł
+                                    </td>
+                                    <td style="color:red">
+                                        <big>{{ ebook.price_brutto_discount|floatformat:2 }} zł</big>
+                                    </td>
+
+                                </tr>
+                            {% elif ebook.discount_percent == 0 %}
+                                <tr style="text-align: center">
+
+
+                                    <td > {{ ebook.price_brutto|floatformat:2 }} zł
+                                    </td>
+
+
+                                </tr>
+
+                            {% endif %}
+                            </table>
+                        <div style="text-align: center">
+                            <a id="ad_to_cart" href="/">Do koszyka</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+
+

@@ -4,7 +4,15 @@
 
 
     <div class="container">
-    <h5>Kategorie:</h5>
+    <h8>Polecane:</h8>
+    <ul style="list-style-type:none;">
+        <li><a href="">Top 20</a> </li>
+        <li><a href="{% url 'promo_ebook' %}">Promocje</a> </li>
+        <li><a href="{% url 'new_ebook' %}">Nowości</a> </li>
+
+    </ul>
+
+    <h8>Kategorie:</h8>
 <ul style="list-style-type:none;">
             {% for gendre in gendre_count %}
                 <span style="margin-right:50px" class="ml-25"><li><a
@@ -13,7 +21,7 @@
   {% endfor %}
 </ul>
 
-    <h5>Nowości:</h5>
+    <h5><a href="{% url 'new_ebook' %}">Nowości:</a> </h5>
     <div class="row row-cols-1 row-cols-md-5">
 
 
@@ -67,7 +75,7 @@
         </div>
 
 
-       <h5>Promocja:</h5>
+       <h5><a href="{% url 'promo_ebook' %}">Promocje:</a></h5>
     <div class="row row-cols-1 row-cols-md-5">
 
 

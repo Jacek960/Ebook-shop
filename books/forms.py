@@ -2,8 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from books.models import Ebook, Autor
-
+from books.models import Ebook, Autor, Gendre
 
 
 class SignUpForm(UserCreationForm):
@@ -38,5 +37,14 @@ class AuthorForm(forms.ModelForm):
         fields = ['name']
         labels = {
             'name':'Imię i Nazwisko',
+
+        }
+
+class GendreForm(forms.ModelForm):
+    class Meta:
+        model=Gendre
+        fields = ['name']
+        labels = {
+            'name':'Gatunek',
 
         }
