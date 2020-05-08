@@ -30,6 +30,9 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
+                                <li class="nav-item">
+                        <a class="nav-link" href="{% url 'book_list' %}">Nasze Ebooki</a></li>
+                    <li class="nav-item">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link active" href="#">Witaj {{ user.username }}!</a></li>
