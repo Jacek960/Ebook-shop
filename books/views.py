@@ -11,6 +11,7 @@ from books.models import Ebook, Gendre, Autor, Banner, MainBanner
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
+from django.db.models import Q
 
 
 class SignUpView(generic.CreateView):
@@ -114,3 +115,13 @@ class NewBooksView(View):
     def get(self,request):
         new_books=Ebook.objects.order_by('-created')
         return render(request,'books/new_books.html',{'new_books':new_books})
+
+
+def search(request):
+    autor = None
+    books = None
+    query = None
+    if 'q' in request.GET:
+        query = request.GET.get('q')
+        books = Ebook.objects.all().filter(Q(name__icontains=query) | Q(description__icontains=query))
+    return render(request, 'books/search.html',{'query':query,'books':books})

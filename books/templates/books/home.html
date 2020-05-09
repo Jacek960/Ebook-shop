@@ -15,7 +15,7 @@
             {% for gendre in gendre_count %}
                 <span style="margin-right:50px" class="ml-25"><li><a
                         href="{% url 'ebook_gendre' gendre.slug %}">{{ gendre }} <span
-                        class="num-of-ads">({{ gendre.total_gendre }})</span></a></span></li>
+                        class="num-of-ads">({{ gendre.total_gendre }})</span></a></li>
             {% endfor %}
         </ul>
             </div>
