@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import BookListView, BookDetailView, EbookCreateView, AuthorCreateView, EbookUpdate, EbookDelete, \
-    HomePageView, GendreBooksView, SignUpView, PromoBooksView, AuthorBooksView, GendreCreateView, NewBooksView
+    HomePageView, GendreBooksView, SignUpView, PromoBooksView, AuthorBooksView, GendreCreateView, NewBooksView, \
+    PublisherCreateView
 
 urlpatterns = [
     path('books/', BookListView.as_view(), name='book_list'),
@@ -9,6 +10,7 @@ urlpatterns = [
     path('add-book/', EbookCreateView.as_view(), name='add_ebook'),
     path('add-author/', AuthorCreateView.as_view(), name='add_author'),
     path('add-gendre/', GendreCreateView.as_view(), name='add_gendre'),
+    path('add-publisher/', PublisherCreateView.as_view(), name='add_publisher'),
     path('book_edit/<pk>/',EbookUpdate.as_view(),name='edit-ebook'),
     path('book_delete/<pk>/',EbookDelete.as_view(),name='delete-ebook'),
     path('genre/<slug:gendre_slug>/', GendreBooksView.as_view(), name='ebook_gendre'),

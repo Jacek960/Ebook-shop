@@ -5,3 +5,4 @@ books/__pycache__/
 ad_image/
 books/migrations/__pycache__/
 uploads/
+books/static/img/baner

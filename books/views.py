@@ -1,10 +1,12 @@
+import random
+
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Count
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
 
-from books.forms import EbookForm, AuthorForm, SignUpForm, GendreForm
+from books.forms import EbookForm, AuthorForm, SignUpForm, GendreForm, PublisherForm
 from books.models import Ebook, Gendre, Autor
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
@@ -33,7 +35,9 @@ class HomePageView(View):
         gendres = Gendre.objects.all().order_by('name')
         gendre_count = Gendre.objects.annotate(total_gendre=Count('ebook')).order_by('name')
         last5_ebooks = Ebook.objects.order_by('-created')[0:5]
-        discount_books = Ebook.objects.filter(discount_percent__gt=0)[0:5]
+        discount_books_list = list(Ebook.objects.filter(discount_percent__gt=0))
+        random.shuffle(discount_books_list)
+        discount_books = discount_books_list[0:5]
 
         return render(request,'books/home.html',{'gendres':gendres,
                                                  'gendre_count':gendre_count,
@@ -42,14 +46,13 @@ class HomePageView(View):
                                                  'discount_books':discount_books
                                                  })
 
-
 class GendreBooksView(View):
     def get(self,request,gendre_slug=None):
         gendre_books = Ebook.objects.all()
         if gendre_slug:
             gendre= Gendre.objects.get(slug=gendre_slug)
             gendre_books=gendre_books.filter(gendre=gendre)
-        return render(request,'books/gendre_list.html',{'gendre_books':gendre_books})
+        return render(request,'books/gendre_list.html',{'gendre_books':gendre_books,'gendre':gendre})
 
 
 
@@ -70,6 +73,12 @@ class GendreCreateView(PermissionRequiredMixin,CreateView):
     template_name = 'books/add_gendre_form.html'
     success_url = '/books/'
     permission_required = 'books.add_gendre'
+
+class PublisherCreateView(PermissionRequiredMixin,CreateView):
+    form_class = PublisherForm
+    template_name = 'books/add_publisher_form.html'
+    success_url = '/books/'
+    permission_required = 'books.add_publisher'
 
 class EbookUpdate(PermissionRequiredMixin,UpdateView):
     model = Ebook
@@ -95,7 +104,7 @@ class AuthorBooksView(View):
         if autor_slug:
             autor = Autor.objects.get(slug=autor_slug)
             autor_books=autor_books.filter(autor=autor)
-        return render(request, 'books/author_list.html', {'autor_books': autor_books})
+        return render(request, 'books/author_list.html', {'autor_books': autor_books,'autor':autor})
 
 class NewBooksView(View):
     def get(self,request):
