@@ -7,7 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.views import View
 
 from books.forms import EbookForm, AuthorForm, SignUpForm, GendreForm, PublisherForm
-from books.models import Ebook, Gendre, Autor
+from books.models import Ebook, Gendre, Autor, Banner, MainBanner
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -38,12 +38,16 @@ class HomePageView(View):
         discount_books_list = list(Ebook.objects.filter(discount_percent__gt=0))
         random.shuffle(discount_books_list)
         discount_books = discount_books_list[0:5]
+        banners=Banner.objects.filter(is_active=True)
+        mainbaner=MainBanner.objects.all()
 
         return render(request,'books/home.html',{'gendres':gendres,
                                                  'gendre_count':gendre_count,
                                                  'ebooks':ebooks,
                                                  'last5_ebooks':last5_ebooks,
-                                                 'discount_books':discount_books
+                                                 'discount_books':discount_books,
+                                                 'banners':banners,
+                                                 'mainbaner':mainbaner,
                                                  })
 
 class GendreBooksView(View):

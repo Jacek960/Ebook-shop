@@ -121,3 +121,21 @@ class Ebook(models.Model):
 
     def __str__(self):
         return self.name
+
+class Banner(models.Model):
+    name = models.CharField(max_length=64)
+    image = models.ImageField(upload_to='books/static/img/baner/')
+    url = models.CharField(max_length=350)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+class MainBanner(models.Model):
+    name = models.CharField(max_length=64)
+    image = models.ImageField(upload_to='books/static/img/baner/')
+    url = models.CharField(max_length=350)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name

@@ -25,28 +25,21 @@
 
 <div style="padding-top: 50px" id="demo" class="carousel slide" data-ride="carousel">
 
-  <!-- Indicators -->
-  <ul class="carousel-indicators">
-    <li data-target="#demo" data-slide-to="0" class="active"></li>
-    <li data-target="#demo" data-slide-to="1"></li>
-    <li data-target="#demo" data-slide-to="2"></li>
-  </ul>
-
   <!-- The slideshow -->
   <div class="carousel-inner">
-    <div class="carousel-item active">
-        <a href="/promotion/ ">
-      <img src="{% static "img/baner/baner_books.jpg" %}" alt="Los Angeles" width="820" height="325"></a>
-
-
+{% for baner in mainbaner %}
+         <div class="carousel-item active">
+        <a href="{{ baner.url}} ">
+      <img src="{{ baner.image.url }}" alt="{{ baner.name}}" width="820" height="325"></a>
+         </div>
+        {% endfor %}
+      {% for baner in banners %}
+        <div class="carousel-item">
+        <a href="{{ baner.url }} ">
+      <img src="{{ baner.image.url }}" alt="{{ baner.name}}" width="820" height="325"></a>
     </div>
+      {% endfor %}
 
-    <div class="carousel-item">
-      <img src="{% static "img/baner/baner-instytut.jpg" %}" alt="Chicago" width="820" height="325">
-    </div>
-    <div class="carousel-item">
-      <img src="{% static "img/baner/baner_historyczne.jpg" %}" alt="New York" width="820" height="325">
-    </div>
   </div>
 
 
