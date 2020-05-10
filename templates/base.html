@@ -21,7 +21,7 @@
 <body>
 
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/">Ebook4U</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,7 @@
 
             <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}" method="get">
                 <input class="form-control mr-sm-2" type="search" placeholder="Wpisz szukaną frazę" aria-label="Search" name="q">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Wyszukaj</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Wyszukaj</button>
             </form>
         </div>
     </nav>
@@ -81,8 +81,8 @@
 </main>
 <footer class="text-muted bg-dark ">
     <div class="container ">
-        <p class="float-right">
-            <a href="#">Back to top</a>
+        <p class="fixed-bottom">
+            <a class="btn btn-primary" href="#">Powrót na górę</a>
         </p>
         <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
         <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting

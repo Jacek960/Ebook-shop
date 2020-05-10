@@ -1,15 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-<p>Wyszukifana fraza to {{ query }}</p>
-  <div class="row row-cols-1 row-cols-md-5">
+        <p>Wyszukifana fraza to "{{ query }}"</p>
+        <div class="row row-cols-1 row-cols-md-5">
             {% for ebook in books %}
                 {% include "books/book_card.html" %}
-{#                {{ ebook.name }}#}
-
-                {% empty %}
-                <p>0 wyników</p>
+            {% empty %}
+                <p>odnaleziono 0 wyników</p>
             {% endfor %}
         </div>
-<div class="container">
+    </div>
 {% endblock %}

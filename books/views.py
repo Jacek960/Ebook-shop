@@ -117,11 +117,12 @@ class NewBooksView(View):
         return render(request,'books/new_books.html',{'new_books':new_books})
 
 
-def search(request):
-    autor = None
-    books = None
-    query = None
-    if 'q' in request.GET:
-        query = request.GET.get('q')
-        books = Ebook.objects.all().filter(Q(name__icontains=query) | Q(description__icontains=query))
-    return render(request, 'books/search.html',{'query':query,'books':books})
+class SearchView(View):
+    def get(self,request):
+        books = None
+        query = None
+        if 'q' in request.GET:
+            query = request.GET.get('q')
+            books = Ebook.objects.all().filter(
+                Q(name__icontains=query) | Q(description__icontains=query) | Q(autor__name__icontains=query))
+        return render(request, 'books/search.html', {'query': query, 'books': books})
