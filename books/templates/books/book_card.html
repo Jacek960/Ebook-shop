@@ -29,7 +29,7 @@
                 {% endif %}
             </table>
             <div style="text-align: center">
-                <a class="btn btn-primary btn-sm" href="#" role="button">Do koszyka</a>
+                <a class="btn btn-primary btn-sm" href="{% url 'add_book_to_cart' ebook.id %}" role="button">Do koszyka</a>
             </div>
         </div>
     </div>

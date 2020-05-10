@@ -1,13 +1,15 @@
 import random
 
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
 
 from books.forms import EbookForm, AuthorForm, SignUpForm, GendreForm, PublisherForm
-from books.models import Ebook, Gendre, Autor, Banner, MainBanner
+from books.models import Ebook, Gendre, Autor, Banner, MainBanner, Cart, CartProduct
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -126,3 +128,22 @@ class SearchView(View):
             books = Ebook.objects.all().filter(
                 Q(name__icontains=query) | Q(description__icontains=query) | Q(autor__name__icontains=query))
         return render(request, 'books/search.html', {'query': query, 'books': books})
+
+
+class AddItemToCardView(LoginRequiredMixin,View):
+
+    def get(self, request, id_product):
+        cart, created= Cart.objects.get_or_create(user=request.user)
+        ebook = Ebook.objects.get(id=id_product)
+        cart.product.add(ebook)
+        return redirect('cart')
+
+
+
+class CartView(LoginRequiredMixin,View):
+
+    def get(self, request):
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        return render(request, 'books/shopping_cart.html', {'cart':cart})
+
+
