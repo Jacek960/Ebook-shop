@@ -3,12 +3,12 @@
         <a href="{% url 'ebook_details' ebook.slug %} ">
             <img src="{{ ebook.image.url }}" class="card-img-top" alt="..."
 
-                 style="max-width: 157px;max-height:250px;display: block;margin: 0 auto;padding-top: 15px;"></a>
+                 style="width: 157px;height:250px;display: block;margin: 0 auto;padding-top: 15px;"></a>
         <div class="card-body">
             <ul style="list-style-type:none;padding: 0;">
                 <li style="text-align: center"><a
                         href="{% url 'ebook_details' ebook.slug %} ">{{ ebook.name }}</a></li>
-                <li style="text-align: center">{{ ebook.autor }}</li>
+                <li style="text-align: center"><a style="color: black;" href="{% url 'ebook_author' ebook.autor.slug %}">{{ ebook.autor }}</a></li>
             </ul>
             <table style="width:100%">
                 {% if ebook.discount_percent > 0 %}

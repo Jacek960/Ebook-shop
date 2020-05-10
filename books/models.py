@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -96,17 +97,6 @@ class Ebook(models.Model):
         elif self.vat == 3:
             return price_discount_added * 1.23
 
-    # def price_netto_discount(self):
-    #     discount = float(self.price) * (float(self.discount_percent)/100)
-    #     price_discount_added = float(self.price) - float(discount)
-    #     if self.vat == 0:
-    #         return price_discount_added
-    #     elif self.vat == 1:
-    #         return price_discount_added * 1.05
-    #     elif self.vat == 2:
-    #         return price_discount_added * 1.08
-    #     elif self.vat == 3:
-    #         return price_discount_added * 1.23
 
 
     def vat_string(self):
@@ -139,3 +129,20 @@ class MainBanner(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    order_date = models.DateTimeField(auto_now_add=True)
+    product = models.ManyToManyField(Ebook,through='CartProduct')
+
+    def __str__(self):
+        return self.user
+
+class CartProduct(models.Model):
+    product = models.ForeignKey(Ebook, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.product
