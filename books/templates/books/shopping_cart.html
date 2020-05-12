@@ -1,24 +1,46 @@
 {% extends 'base.html' %}
 {% block content %}
      <div class="container">
-koszyk :<br>
-    {% for item in cart.cartproduct_set.all %}
-        <p><img src="{{ item.product.image.url }}" class="card-img" alt="..." style="width: 83px;height:125px "> {{ item.product.name }} {{ item.product.price_brutto }} {{ item.quantity }} {{ item.product.discount_percent }}</p>
-             <table style="width:100%">
-                {% if item.product.discount_percent > 0 %}
-                    <tr style="text-align: center">
-                        <td style="color:red">
-                            <big>{{ item.product.price_brutto_discount|floatformat:2 }} zł</big>
+         <p>Twój koszyk :</p><br>
+
+     <table class="table-shop">
+  <tr>
+    <th></th>
+    <th>Produkt</th>
+      <th>Ilość</th>
+      <th>Cena</th>
+  </tr>
+  <tr>
+      {% for item in cart.cartproduct_set.all %}
+      <td><img src="{{ item.product.image.url }}" class="card-img" alt="..." style="width: 83px;height:125px "> </td>
+    <td><p>Tytuł: {{ item.product.name }}</p>
+    <p>Autor: {{ item.product.autor }}</p>
+    </td>
+          <th>{{ item.quantity }}</th>
+    {% if item.product.discount_percent > 0 %}
+    <td>{{ item.product.price_brutto_discount|floatformat:2 }} zł</td>
+          {% elif item.product.discount_percent == 0 %}
+    <td> {{ item.product.price_brutto|floatformat:2 }} zł
                         </td>
-                    </tr>
-                {% elif item.product.discount_percent == 0 %}
-                    <tr style="text-align: center">
-                        <td> {{ item.product.price_brutto|floatformat:2 }} zł
-                        </td>
-                    </tr>
-                {% endif %}
-        </table>
-            {% endfor %}
+
+
+    {% endif %}
+
+  </tr>
+         {% endfor %}
+     <tr>
+         <td></td>
+         <td></td>
+         <td><strong>Razem do zapłaty:</strong>
+         </td>
+         <td><strong>{{ total|floatformat:2 }} zł</strong></td>
+     </tr>
+     </table>
+         <div>
+
+             <p>Przejdz do płątności</p>
+         </div>
+
 
      </div>
 {% endblock %}

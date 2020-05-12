@@ -16,3 +16,19 @@ footer {
     margin-right: 100px;
 
 }
+.table-shop {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+
+}
+
+.table-shop td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.table-shop tr:nth-child(even) {
+  background-color: #f8f4f4;
+}

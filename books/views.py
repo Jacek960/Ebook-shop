@@ -1,4 +1,5 @@
 import random
+from unicodedata import decimal
 
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
@@ -144,6 +145,12 @@ class CartView(LoginRequiredMixin,View):
 
     def get(self, request):
         cart, created = Cart.objects.get_or_create(user=request.user)
-        return render(request, 'books/shopping_cart.html', {'cart':cart})
+        total = 0
+        for item in cart.product.all():
+            if  item.discount_percent== 0:
+                total += item.price_brutto()
+            elif item.discount_percent > 0:
+                total += item.price_brutto_discount()
+        return render(request, 'books/shopping_cart.html', {'cart':cart,'total':total})
 
 
