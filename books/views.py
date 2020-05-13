@@ -140,6 +140,15 @@ class AddItemToCardView(LoginRequiredMixin,View):
         return redirect('cart')
 
 
+class RemoveItemFromCardView(LoginRequiredMixin,View):
+
+    def get(self, request, id_product):
+        cart = Cart.objects.get(user=request.user)
+        ebook = Ebook.objects.get(id=id_product)
+        cart.product.remove(ebook)
+        return redirect('cart')
+
+
 
 class CartView(LoginRequiredMixin,View):
 
