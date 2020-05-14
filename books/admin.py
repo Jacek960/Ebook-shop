@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Ebook, Autor, Gendre, Publisher, Format, Banner, MainBanner
+from .models import Ebook, Autor, Gendre, Publisher, Format, Banner, MainBanner, Cart, CartProduct
 
 admin.site.register(Ebook)
 admin.site.register(Autor)
@@ -9,3 +9,5 @@ admin.site.register(Publisher)
 admin.site.register(Format)
 admin.site.register(Banner)
 admin.site.register(MainBanner)
+admin.site.register(Cart)
+admin.site.register(CartProduct)

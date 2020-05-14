@@ -137,7 +137,7 @@ class Cart(models.Model):
     product = models.ManyToManyField(Ebook,through='CartProduct')
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 class CartProduct(models.Model):
     product = models.ForeignKey(Ebook, on_delete=models.CASCADE)
@@ -147,4 +147,4 @@ class CartProduct(models.Model):
 
 
     def __str__(self):
-        return self.product
+        return self.product.name

@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-{#        {% if not item in cart %}#}
-{#            <h5 style="text-align: center">Twoj koszyk jest pusty</h5>#}
-{#            <h5 style="text-align: center"><a href="{% url 'book_list' %}">Kontynuuj zakupy</a></h5>#}
-{#        {% else %}#}
+        {% if item %}
+            <h5 style="text-align: center">Twoj koszyk jest pusty</h5>
+            <h5 style="text-align: center"><a href="{% url 'book_list' %}">Kontynuuj zakupy</a></h5>
+        {% else %}
 
             <table class="table-shop">
                 <tr>
@@ -43,7 +43,7 @@
 
                 <p>Przejdz do płątności</p>
             </div>
-{#        {% endif %}#}
+        {% endif %}
 
     </div>
 {% endblock %}
