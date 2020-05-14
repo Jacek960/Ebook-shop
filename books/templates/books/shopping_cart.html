@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-        {% if item %}
-            <h5 style="text-align: center">Twoj koszyk jest pusty</h5>
-            <h5 style="text-align: center"><a href="{% url 'book_list' %}">Kontynuuj zakupy</a></h5>
-        {% else %}
+{#        {% if item %}#}
+{#            <h5 style="text-align: center">Twoj koszyk jest pusty</h5>#}
+{#            <h5 style="text-align: center"><a href="{% url 'book_list' %}">Kontynuuj zakupy</a></h5>#}
+{#        {% else %}#}
 
             <table class="table-shop">
                 <tr>
@@ -39,11 +39,18 @@
                     <td><strong>{{ total|floatformat:2 }} zł</strong></td>
                 </tr>
             </table>
+    <div style="height: 100px;padding-top: 25px">
+        <a href="" class="btn btn-warning float-right ml-2"
+                               role="button" aria-disabled="true">Przejdz do płatności</a>
+    <a href="{% url 'book_list' %}" class="btn btn-primary float-right"
+                               role="button" aria-disabled="true">Kontynuj zakupy</a>
+
+        </div>
+
             <div>
 
-                <p>Przejdz do płątności</p>
             </div>
-        {% endif %}
+{#        {% endif %}#}
 
-    </div>
+{#    </div>#}
 {% endblock %}

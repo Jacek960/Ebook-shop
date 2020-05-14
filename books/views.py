@@ -24,6 +24,7 @@ class SignUpView(generic.CreateView):
 
 
 class BookListView(ListView):
+    paginate_by = 5
     template_name='books/book_list.html'
     model = Ebook
 
