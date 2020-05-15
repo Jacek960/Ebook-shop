@@ -3,6 +3,7 @@ from unicodedata import decimal
 
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -17,6 +18,8 @@ from django.views import generic
 from django.db.models import Q
 
 
+pages_in_pagination = 5
+
 class SignUpView(generic.CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy('login')
@@ -24,7 +27,7 @@ class SignUpView(generic.CreateView):
 
 
 class BookListView(ListView):
-    paginate_by = 5
+    paginate_by = pages_in_pagination
     template_name='books/book_list.html'
     model = Ebook
 
@@ -61,7 +64,10 @@ class GendreBooksView(View):
         if gendre_slug:
             gendre= Gendre.objects.get(slug=gendre_slug)
             gendre_books=gendre_books.filter(gendre=gendre)
-        return render(request,'books/gendre_list.html',{'gendre_books':gendre_books,'gendre':gendre})
+            paginator = Paginator(gendre_books,pages_in_pagination)
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+        return render(request,'books/gendre_list.html',{'gendre_books':gendre_books,'gendre':gendre,'page_obj':page_obj})
 
 
 
@@ -102,10 +108,12 @@ class EbookDelete(PermissionRequiredMixin,DeleteView):
     success_url = '/books/'
     permission_required = 'books.delete_ebook'
 
-class PromoBooksView(View):
-    def get(self,request):
-        promo_books=Ebook.objects.filter(discount_percent__gt=0)
-        return render(request,'books/promo_books.html',{'promo_books':promo_books})
+
+class PromoBooksList(ListView):
+    paginate_by = pages_in_pagination
+    context_object_name = 'promo_books'
+    queryset = Ebook.objects.filter(discount_percent__gt=0)
+    template_name = 'books/promo_books.html'
 
 class AuthorBooksView(View):
     def get(self,request,autor_slug=None):
@@ -113,12 +121,17 @@ class AuthorBooksView(View):
         if autor_slug:
             autor = Autor.objects.get(slug=autor_slug)
             autor_books=autor_books.filter(autor=autor)
-        return render(request, 'books/author_list.html', {'autor_books': autor_books,'autor':autor})
+            paginator = Paginator(autor_books,pages_in_pagination)
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+        return render(request, 'books/author_list.html', {'autor_books': autor_books,'autor':autor,'page_obj':page_obj})
 
-class NewBooksView(View):
-    def get(self,request):
-        new_books=Ebook.objects.order_by('-created')
-        return render(request,'books/new_books.html',{'new_books':new_books})
+
+class NewBooksList(ListView):
+    paginate_by = pages_in_pagination
+    context_object_name = 'new_books'
+    queryset = Ebook.objects.order_by('-created')
+    template_name = 'books/new_books.html'
 
 
 class SearchView(View):

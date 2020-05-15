@@ -3,10 +3,11 @@
     <div class="container">
         <h2>Promocje </h2>
         <div class="row row-cols-1 row-cols-md-5">
-            {% for ebook in promo_books %}
+            {% for ebook in object_list %}
                 {% include "books/book_card.html" %}
             {% endfor %}
         </div>
+        {% include "books/pagination.html" %}
     </div>
 {% endblock %}
 

@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-    <br>
+        <br>
         <h3>Książki z kategori {{ gendre }} </h3>
         <div class="row row-cols-1 row-cols-md-5">
-            {% for ebook in gendre_books %}
+            {% for ebook in page_obj %}
                 {% include "books/book_card.html" %}
             {% endfor %}
         </div>
+        {% include "books/pagination.html" %}
     </div>
 {% endblock %}
 

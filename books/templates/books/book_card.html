@@ -8,7 +8,9 @@
             <ul style="list-style-type:none;padding: 0;">
                 <li style="text-align: center"><a
                         href="{% url 'ebook_details' ebook.slug %} ">{{ ebook.name }}</a></li>
-                <li style="text-align: center"><a style="color: black;" href="{% url 'ebook_author' ebook.autor.slug %}">{{ ebook.autor }}</a></li>
+                <li style="text-align: center"><a style="color: black;"
+                                                  href="{% url 'ebook_author' ebook.autor.slug %}">{{ ebook.autor }}</a>
+                </li>
             </ul>
             <table style="width:100%">
                 {% if ebook.discount_percent > 0 %}
@@ -29,7 +31,8 @@
                 {% endif %}
             </table>
             <div style="text-align: center">
-                <a class="btn btn-primary btn-sm" href="{% url 'add_book_to_cart' ebook.id %}" role="button">Do koszyka</a>
+                <a class="btn btn-primary btn-sm" href="{% url 'add_book_to_cart' ebook.id %}" role="button">Do
+                    koszyka</a>
             </div>
         </div>
     </div>

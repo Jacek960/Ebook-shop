@@ -4,10 +4,11 @@
     <br>
         <h3>Autor: {{ autor.name }} </h3>
         <div class="row row-cols-1 row-cols-md-5">
-            {% for ebook in autor_books %}
+            {% for ebook in page_obj %}
                 {% include "books/book_card.html" %}
             {% endfor %}
         </div>
+{% include "books/pagination.html" %}
     </div>
 {% endblock %}
 
