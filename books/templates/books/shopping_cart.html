@@ -1,56 +1,59 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-{#        {% if item %}#}
-{#            <h5 style="text-align: center">Twoj koszyk jest pusty</h5>#}
-{#            <h5 style="text-align: center"><a href="{% url 'book_list' %}">Kontynuuj zakupy</a></h5>#}
-{#        {% else %}#}
-
+        {% if total %}
             <table class="table-shop">
-                <tr>
-                    <th></th>
-                    <th>Produkt</th>
-                    <th></th>
-                    <th>Cena</th>
-                </tr>
-                <tr>
-                    {% for item in cart.cartproduct_set.all %}
-                        <td><img src="{{ item.product.image.url }}" class="card-img" alt="..."
-                                 style="width: 83px;height:125px "></td>
-                        <td><p>Tytuł: {{ item.product.name }}</p>
-                            <p>Autor: {{ item.product.autor }}</p>
-                        </td>
-                        <th><a href="{% url 'remove_book_from_cart' item.product.id %}" class="btn btn-outline-primary"
-                               role="button" aria-disabled="true">Usuń z koszyka</a></th>
-                        {% if item.product.discount_percent > 0 %}
-                            <td>{{ item.product.price_brutto_discount|floatformat:2 }} zł</td>
-                        {% elif item.product.discount_percent == 0 %}
-                            <td> {{ item.product.price_brutto|floatformat:2 }} zł
-                            </td>
-                        {% endif %}
+            <tr>
+                <th></th>
+                <th>Produkt</th>
+                <th></th>
+                <th>Cena</th>
+            </tr>
+        {% endif %}
 
-                        </tr>
-                    {% endfor %}
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td><strong>Razem do zapłaty:</strong>
+        {% for item in cart.cartproduct_set.all %}
+
+            <tr>
+                <td><img src="{{ item.product.image.url }}" class="card-img" alt="..."
+                         style="width: 83px;height:125px "></td>
+                <td><p>Tytuł: {{ item.product.name }}</p>
+                    <p>Autor: {{ item.product.autor }}</p>
+                </td>
+                <th><a href="{% url 'remove_book_from_cart' item.product.id %}" class="btn btn-outline-primary"
+                       role="button" aria-disabled="true">Usuń z koszyka</a></th>
+                {% if item.product.discount_percent > 0 %}
+                    <td>{{ item.product.price_brutto_discount|floatformat:2 }} zł</td>
+                {% elif item.product.discount_percent == 0 %}
+                    <td> {{ item.product.price_brutto|floatformat:2 }} zł
                     </td>
-                    <td><strong>{{ total|floatformat:2 }} zł</strong></td>
-                </tr>
+                {% endif %}
+            </tr>
+
+
+        {% empty %}
+            <h5 style="text-align: center">Twoj koszyk jest pusty</h5>
+            <span style="display: table; margin: 0 auto;margin-bottom: 10px">
+            <a href="{% url 'book_list' %}" class="btn btn-primary"
+               role="button" aria-disabled="true">Kontynuj zakupy</a></span>
+        {% endfor %}
+        {% if total %}
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td><strong>Razem do zapłaty:</strong>
+                </td>
+                <td><strong>{{ total|floatformat:2 }} zł</strong></td>
+            </tr>
             </table>
-    <div style="height: 100px;padding-top: 25px">
-        <a href="" class="btn btn-warning float-right ml-2"
-                               role="button" aria-disabled="true">Przejdz do płatności</a>
-    <a href="{% url 'book_list' %}" class="btn btn-primary float-right"
-                               role="button" aria-disabled="true">Kontynuj zakupy</a>
-
-        </div>
-
-            <div>
+            <div style="height: 100px;padding-top: 25px">
+                <a href="" class="btn btn-success float-right ml-2"
+                   role="button" aria-disabled="true">Przejdz do płatności</a>
+                <a href="{% url 'book_list' %}" class="btn btn-primary float-right"
+                   role="button" aria-disabled="true">Kontynuj zakupy</a>
 
             </div>
-{#        {% endif %}#}
+        {% endif %}
 
-{#    </div>#}
+    </div>
 {% endblock %}
