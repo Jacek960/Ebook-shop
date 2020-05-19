@@ -6,11 +6,15 @@
 
         <div class="row">
             <div class="col-sm-4">
-                <p> podobne ksiazki</p>
+                <h5 style="text-align: center"> Może Cię zainteresować</h5>
+                {% for ebook in related %}
+                    {% include "books/book_card.html" %}
+
+                {% endfor %}
 
             </div>
             <div class="col-sm-8">
-                <div class="card mb" style="max-width: 840px;padding: 10px">
+                <div class="card mb" style="max-width: 840px;padding: 10px; margin-top: 30px">
                     <div class="row no-gutters">
                         <div class="col-md-4">
                             <img src="{{ object.image.url }}" class="card-img" alt="..." style="max-width: 157px;">
@@ -105,7 +109,7 @@
 
                         </div>
                                                             <h4>Opis:</h4>
-                <p>{{ object.description }}</p>
+                <p style="text-align: justify ">{{ object.description }}</p>
 
                     </div>
                 </div>

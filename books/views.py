@@ -31,10 +31,30 @@ class BookListView(ListView):
     template_name='books/book_list.html'
     model = Ebook
 
+# class BookDetailView(DetailView):
+#     template_name = 'books/book_details.html'
+#     model = Ebook
+#     pk_url_kwarg = 'ebook_slug'
+
 class BookDetailView(DetailView):
     template_name = 'books/book_details.html'
     model = Ebook
     pk_url_kwarg = 'ebook_slug'
+
+
+    def get_context_data(self, **kwargs):
+        context = super(BookDetailView, self).get_context_data(**kwargs)
+
+        ebooks = Ebook.objects.filter(gendre__in=self.object.gendre.all()).exclude(id=self.object.id)
+        context_related_list = list(ebooks)
+        random.shuffle(context_related_list)
+        context_related = context_related_list[0:1]
+        context['related'] = context_related
+        return context
+
+
+
+
 
 
 class HomePageView(View):
