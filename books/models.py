@@ -148,3 +148,21 @@ class CartProduct(models.Model):
 
     def __str__(self):
         return self.product.name
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    order_date = models.DateTimeField(auto_now_add=True)
+    product = models.ManyToManyField(Ebook)
+    payment_status = models.BooleanField(default=False)
+
+
+    def __str__(self):
+        return self.user.username
+
+class OrderProduct(models.Model):
+    products = models.ForeignKey(Ebook, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.products.name

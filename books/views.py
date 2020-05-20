@@ -11,7 +11,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.views import View
 
 from books.forms import EbookForm, AuthorForm, SignUpForm, GendreForm, PublisherForm
-from books.models import Ebook, Gendre, Autor, Banner, MainBanner, Cart, CartProduct
+from books.models import Ebook, Gendre, Autor, Banner, MainBanner, Cart, CartProduct, Order
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -195,5 +195,19 @@ class CartView(LoginRequiredMixin,View):
             elif item.discount_percent > 0:
                 total += item.price_brutto_discount()
         return render(request, 'books/shopping_cart.html', {'cart':cart,'total':total})
+
+class OrderView(LoginRequiredMixin,View):
+
+    def get(self, request):
+        cart= Cart.objects.get(user=request.user)
+        order_details = Order.objects.create(
+        user=request.user,
+        )
+        order_details.save()
+        order_details.product.set(cart.product.all())
+        order_details.save()
+        cart.delete()
+
+        return render(request,'books/order_placed.html')
 
 
