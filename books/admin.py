@@ -13,6 +13,10 @@ admin.site.register(Cart)
 admin.site.register(CartProduct)
 admin.site.register(OrderProduct)
 
+def products(order):
+    return [product for product in order.product.all()]
+
 @admin.register((Order))
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['user','order_date']
+    list_display = ['id','user','order_date',products,'total','payment_status']
+    list_editable = ['payment_status']

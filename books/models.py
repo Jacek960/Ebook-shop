@@ -136,6 +136,15 @@ class Cart(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     product = models.ManyToManyField(Ebook,through='CartProduct')
 
+    def cart_total(self):
+        total = 0
+        for item in self.product.all():
+            if item.discount_percent == 0:
+                total += item.price_brutto()
+            elif item.discount_percent > 0:
+                total += item.price_brutto_discount()
+        return round(total,2)
+
     def __str__(self):
         return self.user.username
 
@@ -155,6 +164,7 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     product = models.ManyToManyField(Ebook)
     payment_status = models.BooleanField(default=False)
+    total = models.FloatField()
 
 
     def __str__(self):

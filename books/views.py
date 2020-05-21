@@ -202,6 +202,7 @@ class OrderView(LoginRequiredMixin,View):
         cart= Cart.objects.get(user=request.user)
         order_details = Order.objects.create(
         user=request.user,
+        total=cart.cart_total()
         )
         order_details.save()
         order_details.product.set(cart.product.all())
