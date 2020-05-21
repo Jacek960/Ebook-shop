@@ -47,10 +47,11 @@
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Witaj {{ user.username }}!
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="accounts/password_change/">Zmień hasło</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="accounts/password_change/">Zmień hasło</a>
                     </div>
-
+<li class="nav-item">
+                        <a class="nav-link " href="{% url 'my-books' %}">Moje Książki</a></li>
 
                     <li class="nav-item">
                         <a class="nav-link " href="{% url 'logout' %}">Wyloguj się</a></li>

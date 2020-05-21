@@ -211,4 +211,9 @@ class OrderView(LoginRequiredMixin,View):
 
         return render(request,'books/order_placed.html')
 
+class OrderHistory(LoginRequiredMixin,View):
+    def get(self,request):
+        order_paid = Order.objects.filter(user=request.user).filter(payment_status=True)
+        return render(request,'books/my_books.html',{'order_paid':order_paid})
+
 
