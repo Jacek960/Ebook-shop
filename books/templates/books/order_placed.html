@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-        <h2>Twoje zamowienie zostało przekazane do realizacji: </h2>
-    <p>oczekujemy na twoja platnosc</p>
+        <h5>Twoje zamówienie numer {{ order_details.id }} oczekuje na płatność</h5>
+        <h4>Dane do płątności:</h4>
+
+        <p>Numer konta: 1234 1234 1234 1234</p>
+        <p>Kwota do zapłaty <strong>{{ order_details.total }} zł</strong></p>
+        <p>Treść przelewu: zapłata za zamówienie numer {{ order_details.id }} </p>
 
     </div>
 {% endblock %}

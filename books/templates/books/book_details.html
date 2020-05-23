@@ -22,8 +22,9 @@
                         <div class="col-md-8">
                             <div class="card-body">
                                 {% if object.discount_percent > 0 %}
-                                    <a href="{% url 'promo_ebook' %}" class="btn btn-outline-danger" role="button" aria-disabled="true">Promocja</a>
-                                            {% endif %}
+                                    <a href="{% url 'promo_ebook' %}" class="btn btn-outline-danger" role="button"
+                                       aria-disabled="true">Promocja</a>
+                                {% endif %}
                                 <h2 class="card-title">{{ object.name }}</h2>
                                 <div class="row">
                                     <div class="col-8">
@@ -32,14 +33,17 @@
                                             <tr>
 
                                                 <td>Autor:</td>
-                                                <td><strong><a style="color: black" href="{% url 'ebook_author' object.autor.slug %}">{{ object.autor }}</a></strong></td>
+                                                <td><strong><a style="color: black"
+                                                               href="{% url 'ebook_author' object.autor.slug %}">{{ object.autor }}</a></strong>
+                                                </td>
 
                                             </tr>
                                             <tr>
                                                 <td>Gatunek:</td>
                                                 <td>
                                                     {% for gendre in object.gendre.all %}
-                                                        <a href="{% url 'ebook_gendre' gendre.slug %}">{{ gendre.name }}</a>,
+                                                        <a href="{% url 'ebook_gendre' gendre.slug %}">{{ gendre.name }}</a>
+                                                        ,
                                                     {% endfor %}
                                                 </td>
                                             </tr>
@@ -59,8 +63,8 @@
                                                 </td>
 
                                             </tr>
-{#                                            {% if object.discount_percent > 0 %}#}
-{#                                            {% endif %}#}
+                                            {#                                            {% if object.discount_percent > 0 %}#}
+                                            {#                                            {% endif %}#}
                                             {% if object.discount_percent > 0 %}
                                                 <tr>
 
@@ -74,8 +78,9 @@
                                                 <tr>
 
                                                     <td>Cena:</td>
-                                                    <td style="color:red"><big>{{ object.price_brutto_discount|floatformat:2 }}
-                                                        zł</big>
+                                                    <td style="color:red">
+                                                        <big>{{ object.price_brutto_discount|floatformat:2 }}
+                                                            zł</big>
                                                     </td>
 
                                                 </tr>
@@ -91,25 +96,39 @@
                                             {% endif %}
                                             <tr>
                                                 {% if request.user.is_authenticated and request.user.is_staff %}
-                                                    <td><a href="{% url 'edit-ebook' ebook.pk %}" class="btn btn-warning" role="button" aria-disabled="true">Zmień</a>
+                                                    <td><a href="{% url 'edit-ebook' ebook.pk %}"
+                                                           class="btn btn-warning" role="button" aria-disabled="true">Zmień</a>
                                                     </td>
-                                                    <td><a href="{% url 'delete-ebook' ebook.pk %}" class="btn btn-danger" role="button" aria-disabled="true">Usuń</a></td>
+                                                    <td><a href="{% url 'delete-ebook' ebook.pk %}"
+                                                           class="btn btn-danger" role="button" aria-disabled="true">Usuń</a>
+                                                    </td>
                                                     </tr>
 
                                                 {% endif %}
                                         </table>
 
                                     </div>
+                                    {% if ebook in user.profile.products.all %}
 
-                                    <div class="col-4">
-                                        <a href="{% url 'add_book_to_cart' ebook.id %}" class="btn btn-outline-success" role="button" aria-disabled="true">Do koszyka</a>
-                                    </div>
+                                        <div class="col-4">
+                                            <a href="{% url 'my-books' %}" class="btn btn-outline-success" role="button"
+                                               aria-disabled="true">Już zakupiona</a>
+                                        </div>
+
+                                    {% else %}
+
+                                        <div class="col-4">
+                                            <a href="{% url 'add_book_to_cart' ebook.id %}"
+                                               class="btn btn-outline-success" role="button" aria-disabled="true">Do
+                                                koszyka</a>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
 
                         </div>
-                                                            <h4>Opis:</h4>
-                <p style="text-align: justify ">{{ object.description }}</p>
+                        <h4>Opis:</h4>
+                        <p style="text-align: justify ">{{ object.description }}</p>
 
                     </div>
                 </div>

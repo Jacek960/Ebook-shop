@@ -81,10 +81,18 @@
 
 
             </ul>
+                    {% elif request.user.is_authenticated%}
+                    <ul class="navbar-nav ml-auto">
+                                <li class="nav-item active">
+                        <a class="nav-link fas fa-shopping-basket fa-2x" href="{% url 'cart' %}"> {{ request.user|cart_products_count }}</a></li>
+
+
+            </ul>
+
                 {% else %}
                     <ul class="navbar-nav ml-auto">
                                 <li class="nav-item active">
-                        <a class="nav-link fas fa-shopping-basket fa-2x" href="{% url 'cart' %}"></a></li>
+                        <a class="nav-link fas fa-shopping-basket fa-2x" href="{% url 'cart' %}"> </a></li>
 
 
             </ul>

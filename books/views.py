@@ -209,7 +209,7 @@ class OrderView(LoginRequiredMixin,View):
         order_details.save()
         cart.delete()
 
-        return render(request,'books/order_placed.html')
+        return render(request,'books/order_placed.html',context={'order_details':order_details})
 
 class OrderHistory(LoginRequiredMixin,View):
     def get(self,request):
@@ -217,3 +217,9 @@ class OrderHistory(LoginRequiredMixin,View):
         return render(request,'books/my_books.html',{'order_paid':order_paid})
 
 
+# def mybooks():
+#     order_paid = Order.objects.filter(user=request.user).filter(payment_status=True)
+#     my_books = []
+#     if book in order_paid:
+#         my_books.append(book)
+#     return my_books

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from django.contrib.auth.signals import user_logged_in
 
 class Autor(models.Model):
     name = models.CharField(max_length=250)
@@ -99,6 +99,8 @@ class Ebook(models.Model):
 
 
 
+
+
     def vat_string(self):
         if self.vat == 0:
             return '0 %'
@@ -165,6 +167,15 @@ class Order(models.Model):
     product = models.ManyToManyField(Ebook)
     payment_status = models.BooleanField(default=False)
     total = models.FloatField()
+    products_moved = models.BooleanField(default=False)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self.payment_status and not self.products_moved:
+            self.products_moved = True
+            for ebook in self.product.all():
+                self.user.profile.products.add(ebook)
+        super().save(force_insert,force_update,using,update_fields)
 
 
     def __str__(self):
@@ -176,3 +187,18 @@ class OrderProduct(models.Model):
 
     def __str__(self):
         return self.products.name
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Ebook)
+
+    def __str__(self):
+        return self.user
+
+
+
+
+def create_profile(sender, user, request, **kwargs):
+    Profile.objects.get_or_create(user=user)
+
+user_logged_in.connect(create_profile)

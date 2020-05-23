@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Ebook, Autor, Gendre, Publisher, Format, Banner, MainBanner, Cart, CartProduct, Order, OrderProduct
+from .models import Ebook, Autor, Gendre, Publisher, Format, Banner, MainBanner, Cart, CartProduct, Order, OrderProduct, Profile
 
 admin.site.register(Ebook)
 admin.site.register(Autor)
@@ -12,6 +12,7 @@ admin.site.register(MainBanner)
 admin.site.register(Cart)
 admin.site.register(CartProduct)
 admin.site.register(OrderProduct)
+admin.site.register(Profile)
 
 def products(order):
     return [product for product in order.product.all()]

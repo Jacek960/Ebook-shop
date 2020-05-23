@@ -2,15 +2,11 @@
 {% block content %}
     <div class="container">
 
-
             <div class="row row-cols-1 row-cols-md-5">
-            {%  for order in order_paid %}
-        {%  for ebook in order.product.all %}
+        {%  for ebook in user.profile.products.all %}
                 {% include "books/books_card_paid.html" %}
             {% endfor %}
-            {% endfor %}
         </div>
-
 
 
     </div>
