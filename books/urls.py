@@ -23,7 +23,8 @@ urlpatterns = [
     path('add_to_cart/<int:id_product>', views.AddItemToCardView.as_view(),name='add_book_to_cart'),
     path('remove_from_cart/<int:id_product>', views.RemoveItemFromCardView.as_view(),name='remove_book_from_cart'),
     path('order/', views.OrderView.as_view(), name='order'),
-    path('my_books/', views.OrderHistory.as_view(), name='my-books'),
+    path('my_books/', views.MyEbooks.as_view(), name='my-books'),
+    path('order_history/', views.OrderHistory.as_view(), name='order-history'),
 
 
 

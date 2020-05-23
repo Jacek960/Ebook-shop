@@ -211,15 +211,13 @@ class OrderView(LoginRequiredMixin,View):
 
         return render(request,'books/order_placed.html',context={'order_details':order_details})
 
+class MyEbooks(LoginRequiredMixin,View):
+    def get(self,request):
+        # order_paid = Order.objects.filter(user=request.user).filter(payment_status=True)
+        return render(request,'books/my_books.html')
+
+
 class OrderHistory(LoginRequiredMixin,View):
     def get(self,request):
-        order_paid = Order.objects.filter(user=request.user).filter(payment_status=True)
-        return render(request,'books/my_books.html',{'order_paid':order_paid})
-
-
-# def mybooks():
-#     order_paid = Order.objects.filter(user=request.user).filter(payment_status=True)
-#     my_books = []
-#     if book in order_paid:
-#         my_books.append(book)
-#     return my_books
+        order_history = Order.objects.filter(user=request.user).order_by('-order_date')
+        return render(request,'books/order_history.html',{'order_history':order_history})

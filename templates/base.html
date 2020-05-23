@@ -48,7 +48,8 @@
                         Witaj {{ user.username }}!
                     </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="accounts/password_change/">Zmień hasło</a>
+                             <a class="dropdown-item" href="{% url 'order-history' %}">Historia zamówień</a>
+                            <a class="dropdown-item" href="/accounts/password_change/">Zmień hasło</a>
                     </div>
 <li class="nav-item">
                         <a class="nav-link " href="{% url 'my-books' %}">Moje Książki</a></li>
