@@ -26,6 +26,8 @@ urlpatterns = [
     path('my_books/', views.MyEbooks.as_view(), name='my-books'),
     path('order_history/', views.OrderHistory.as_view(), name='order-history'),
     path('top-10/', views.BestRated.as_view(), name='top-10'),
+    path('user_profile/', views.UserProfile.as_view(), name='user-profile'),
+    path('user_update_profile/', views.UserUpdate.as_view(), name='user-update-profile'),
 
 
 

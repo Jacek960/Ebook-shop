@@ -20,7 +20,7 @@
     <td>
             {% for product in order.product.all  %}
                 <ul>
-      <li>{{ product }}</li>
+      <li>{{ product }} - {{ product.autor }}</li>
                 </ul>
                 {% endfor %}
     </td>

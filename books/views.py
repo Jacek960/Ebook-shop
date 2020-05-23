@@ -2,6 +2,7 @@ import random
 from unicodedata import decimal
 
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.db.models import Count
@@ -10,7 +11,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
 
-from books.forms import EbookForm, AuthorForm, SignUpForm, GendreForm, PublisherForm
+from books.forms import EbookForm, AuthorForm, SignUpForm, GendreForm, PublisherForm, UserUpdateForm
 from books.models import Ebook, Gendre, Autor, Banner, MainBanner, Cart, CartProduct, Order
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
@@ -225,3 +226,18 @@ class BestRated(ListView):
     context_object_name = 'new_books'
     queryset = Ebook.objects.filter(ratings__isnull=False).order_by('-ratings__average')[0:10]
     template_name = 'books/top10.html'
+
+class UserProfile(LoginRequiredMixin,View):
+    def get(self,request):
+      user = User.objects.get(username=request.user)
+      return render(request,'books/user-profile.html',{'user':user})
+
+class UserUpdate(LoginRequiredMixin,UpdateView):
+    model = User
+    form_class = UserUpdateForm
+    template_name = 'books/add_book_form.html'
+    success_url = '/user_profile/'
+    # permission_required = 'user.change_user'
+
+    def get_object(self, queryset=None):
+        return self.request.user

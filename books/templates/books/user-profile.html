@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Wyszukiwana fraza " {{ query }} "- Ebook4U {% endblock %}
+{% block content %}
+    <div class="container">
+        <table class="table table-striped">
+            <tbody>
+            <tr>
+                <td>Nazwa użytkownika</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td>Imię</td>
+                <td>{{ user.first_name }}</td>
+            </tr>
+            <tr>
+                <td>Nazwisko</td>
+                <td>{{ user.last_name }}</td>
+            </tr>
+            </tr>
+            <tr>
+                <td>Ostatnie logowanie</td>
+                <td>{{ user.last_login }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div style="height: 100px;padding-top: 25px">
+            <a href="{% url 'order-history' %}" class="btn btn-success float-left mr-2"
+               role="button" aria-disabled="true">Historia zamówień</a>
+            <a href="{% url 'my-books' %}" class="btn btn-info float-left mr-2"
+               role="button" aria-disabled="true">Moje ebooki</a>
+            <a href="{% url 'book_list' %}" class="btn btn-primary float-left mr-2"
+               role="button" aria-disabled="true">Kontynuj zakupy</a>
+            <a href="{% url 'user-update-profile' %}" class="btn btn-danger float-left mr-2"
+               role="button" aria-disabled="true">Zmień swoje dane</a>
+            <a href="/accounts/password_change/" class="btn btn-warning float-left mr-2"
+               role="button" aria-disabled="true">Zmień hasło</a>
+        </div>
+    </div>
+{% endblock %}
