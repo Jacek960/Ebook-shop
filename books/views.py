@@ -68,6 +68,7 @@ class HomePageView(View):
         discount_books = discount_books_list[0:5]
         banners=Banner.objects.filter(is_active=True)
         mainbaner=MainBanner.objects.all()
+        top_5_rated = Ebook.objects.filter(ratings__isnull=False).order_by('-ratings__average')[0:5]
 
         return render(request,'books/home.html',{'gendres':gendres,
                                                  'gendre_count':gendre_count,
@@ -76,6 +77,7 @@ class HomePageView(View):
                                                  'discount_books':discount_books,
                                                  'banners':banners,
                                                  'mainbaner':mainbaner,
+                                                 'top_5_rated':top_5_rated,
                                                  })
 
 class GendreBooksView(View):
@@ -221,3 +223,13 @@ class OrderHistory(LoginRequiredMixin,View):
     def get(self,request):
         order_history = Order.objects.filter(user=request.user).order_by('-order_date')
         return render(request,'books/order_history.html',{'order_history':order_history})
+
+# class BestRated(View):
+#     def get(self,request):
+#         top_10_rated = Ebook.objects.filter(ratings__isnull=False).order_by('-ratings__average')[0:10]
+#         return render(request,'books/top10.html',{'top_10_rated',top_10_rated})
+
+class BestRated(ListView):
+    context_object_name = 'new_books'
+    queryset = Ebook.objects.filter(ratings__isnull=False).order_by('-ratings__average')[0:10]
+    template_name = 'books/top10.html'

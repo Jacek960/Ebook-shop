@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <h2>Najlepiej oceniane ebooki - Top 10: </h2>
+        <div class="row row-cols-1 ">
+        <ol>
+            {% for ebook in object_list %}
+
+                <li style="font-size: 30px"></li>{% include "books/book_card_rated.html" %}
+            {% endfor %}
+        </ol>
+        </div>
+        {% include "books/pagination.html" %}
+    </div>
+{% endblock %}

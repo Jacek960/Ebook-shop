@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('books.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('ratings/', include('star_ratings.urls', namespace='ratings'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

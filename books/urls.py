@@ -25,6 +25,7 @@ urlpatterns = [
     path('order/', views.OrderView.as_view(), name='order'),
     path('my_books/', views.MyEbooks.as_view(), name='my-books'),
     path('order_history/', views.OrderHistory.as_view(), name='order-history'),
+    path('top-10/', views.BestRated.as_view(), name='top-10'),
 
 
 

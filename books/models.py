@@ -3,6 +3,10 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.signals import user_logged_in
+from django.contrib.contenttypes.fields import GenericRelation
+from star_ratings.models import Rating
+
+
 
 class Autor(models.Model):
     name = models.CharField(max_length=250)
@@ -69,6 +73,7 @@ class Ebook(models.Model):
     file_upload_1 = models.FileField(upload_to='uploads/')
     file_upload_2 = models.FileField(upload_to='uploads/')
     created = models.DateTimeField(auto_now_add=True)
+    ratings = GenericRelation(Rating, related_query_name='foos')
 
     def save(self, *args, **kwargs):
         if not self.slug  and self.name and self.autor:
