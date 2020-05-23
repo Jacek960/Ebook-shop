@@ -18,7 +18,7 @@ from django.views import generic
 from django.db.models import Q
 
 
-pages_in_pagination = 5
+pages_in_pagination = 10
 
 class SignUpView(generic.CreateView):
     form_class = SignUpForm
@@ -31,10 +31,6 @@ class BookListView(ListView):
     template_name='books/book_list.html'
     model = Ebook
 
-# class BookDetailView(DetailView):
-#     template_name = 'books/book_details.html'
-#     model = Ebook
-#     pk_url_kwarg = 'ebook_slug'
 
 class BookDetailView(DetailView):
     template_name = 'books/book_details.html'
@@ -224,10 +220,6 @@ class OrderHistory(LoginRequiredMixin,View):
         order_history = Order.objects.filter(user=request.user).order_by('-order_date')
         return render(request,'books/order_history.html',{'order_history':order_history})
 
-# class BestRated(View):
-#     def get(self,request):
-#         top_10_rated = Ebook.objects.filter(ratings__isnull=False).order_by('-ratings__average')[0:10]
-#         return render(request,'books/top10.html',{'top_10_rated',top_10_rated})
 
 class BestRated(ListView):
     context_object_name = 'new_books'
