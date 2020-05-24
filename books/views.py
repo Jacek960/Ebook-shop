@@ -1,16 +1,11 @@
 import random
-from unicodedata import decimal
-
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.db.models import Count
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.views import View
-
 from books.forms import EbookForm, AuthorForm, SignUpForm, GendreForm, PublisherForm, UserUpdateForm
 from books.models import Ebook, Gendre, Autor, Banner, MainBanner, Cart, CartProduct, Order
 from django.contrib.auth.forms import UserCreationForm
@@ -18,8 +13,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.db.models import Q
 
+pages_in_pagination = 15
 
-pages_in_pagination = 10
 
 class SignUpView(generic.CreateView):
     form_class = SignUpForm
@@ -29,7 +24,7 @@ class SignUpView(generic.CreateView):
 
 class BookListView(ListView):
     paginate_by = pages_in_pagination
-    template_name='books/book_list.html'
+    template_name = 'books/book_list.html'
     model = Ebook
 
 
@@ -37,7 +32,6 @@ class BookDetailView(DetailView):
     template_name = 'books/book_details.html'
     model = Ebook
     pk_url_kwarg = 'ebook_slug'
-
 
     def get_context_data(self, **kwargs):
         context = super(BookDetailView, self).get_context_data(**kwargs)
@@ -50,78 +44,80 @@ class BookDetailView(DetailView):
         return context
 
 
-
-
-
-
 class HomePageView(View):
-    def get(self,request,):
-        ebooks=Ebook.objects.all()
+    def get(self, request, ):
+        ebooks = Ebook.objects.all()
         gendres = Gendre.objects.all().order_by('name')
         gendre_count = Gendre.objects.annotate(total_gendre=Count('ebook')).order_by('name')
         last5_ebooks = Ebook.objects.order_by('-created')[0:5]
         discount_books_list = list(Ebook.objects.filter(discount_percent__gt=0))
         random.shuffle(discount_books_list)
         discount_books = discount_books_list[0:5]
-        banners=Banner.objects.filter(is_active=True)
-        mainbaner=MainBanner.objects.all()
+        banners = Banner.objects.filter(is_active=True)
+        mainbaner = MainBanner.objects.all()
         top_5_rated = Ebook.objects.filter(ratings__isnull=False).order_by('-ratings__average')[0:5]
 
-        return render(request,'books/home.html',{'gendres':gendres,
-                                                 'gendre_count':gendre_count,
-                                                 'ebooks':ebooks,
-                                                 'last5_ebooks':last5_ebooks,
-                                                 'discount_books':discount_books,
-                                                 'banners':banners,
-                                                 'mainbaner':mainbaner,
-                                                 'top_5_rated':top_5_rated,
-                                                 })
+        return render(request, 'books/home.html', {'gendres': gendres,
+                                                   'gendre_count': gendre_count,
+                                                   'ebooks': ebooks,
+                                                   'last5_ebooks': last5_ebooks,
+                                                   'discount_books': discount_books,
+                                                   'banners': banners,
+                                                   'mainbaner': mainbaner,
+                                                   'top_5_rated': top_5_rated,
+                                                   })
+
 
 class GendreBooksView(View):
-    def get(self,request,gendre_slug=None):
+    def get(self, request, gendre_slug=None):
         gendre_books = Ebook.objects.all()
         if gendre_slug:
-            gendre= Gendre.objects.get(slug=gendre_slug)
-            gendre_books=gendre_books.filter(gendre=gendre)
-            paginator = Paginator(gendre_books,pages_in_pagination)
+            gendre = Gendre.objects.get(slug=gendre_slug)
+            gendre_books = gendre_books.filter(gendre=gendre)
+            paginator = Paginator(gendre_books, pages_in_pagination)
             page_number = request.GET.get('page')
             page_obj = paginator.get_page(page_number)
-        return render(request,'books/gendre_list.html',{'gendre_books':gendre_books,'gendre':gendre,'page_obj':page_obj})
+        return render(request, 'books/gendre_list.html',
+                      {'gendre_books': gendre_books, 'gendre': gendre, 'page_obj': page_obj})
 
 
-
-class EbookCreateView(PermissionRequiredMixin,CreateView):
+class EbookCreateView(PermissionRequiredMixin, CreateView):
     form_class = EbookForm
     template_name = 'books/add_book_form.html'
     success_url = '/books/'
     permission_required = 'books.add_ebook'
 
-class AuthorCreateView(PermissionRequiredMixin,CreateView):
+
+class AuthorCreateView(PermissionRequiredMixin, CreateView):
     form_class = AuthorForm
     template_name = 'books/add_author_form.html'
     success_url = '/books/'
     permission_required = 'books.add_autor'
 
-class GendreCreateView(PermissionRequiredMixin,CreateView):
+
+class GendreCreateView(PermissionRequiredMixin, CreateView):
     form_class = GendreForm
     template_name = 'books/add_gendre_form.html'
     success_url = '/books/'
     permission_required = 'books.add_gendre'
 
-class PublisherCreateView(PermissionRequiredMixin,CreateView):
+
+class PublisherCreateView(PermissionRequiredMixin, CreateView):
     form_class = PublisherForm
     template_name = 'books/add_publisher_form.html'
     success_url = '/books/'
     permission_required = 'books.add_publisher'
 
-class EbookUpdate(PermissionRequiredMixin,UpdateView):
+
+class EbookUpdate(PermissionRequiredMixin, UpdateView):
     model = Ebook
     form_class = EbookForm
     template_name = 'books/add_book_form.html'
     success_url = '/books/'
     permission_required = 'books.change_ebook'
 
-class EbookDelete(PermissionRequiredMixin,DeleteView):
+
+class EbookDelete(PermissionRequiredMixin, DeleteView):
     model = Ebook
     template_name = 'books/ebook_delete.html'
     success_url = '/books/'
@@ -134,16 +130,18 @@ class PromoBooksList(ListView):
     queryset = Ebook.objects.filter(discount_percent__gt=0)
     template_name = 'books/promo_books.html'
 
+
 class AuthorBooksView(View):
-    def get(self,request,autor_slug=None):
+    def get(self, request, autor_slug=None):
         autor_books = Ebook.objects.all()
         if autor_slug:
             autor = Autor.objects.get(slug=autor_slug)
-            autor_books=autor_books.filter(autor=autor)
-            paginator = Paginator(autor_books,pages_in_pagination)
+            autor_books = autor_books.filter(autor=autor)
+            paginator = Paginator(autor_books, pages_in_pagination)
             page_number = request.GET.get('page')
             page_obj = paginator.get_page(page_number)
-        return render(request, 'books/author_list.html', {'autor_books': autor_books,'autor':autor,'page_obj':page_obj})
+        return render(request, 'books/author_list.html',
+                      {'autor_books': autor_books, 'autor': autor, 'page_obj': page_obj})
 
 
 class NewBooksList(ListView):
@@ -154,7 +152,7 @@ class NewBooksList(ListView):
 
 
 class SearchView(View):
-    def get(self,request):
+    def get(self, request):
         books = None
         query = None
         if 'q' in request.GET:
@@ -164,16 +162,16 @@ class SearchView(View):
         return render(request, 'books/search.html', {'query': query, 'books': books})
 
 
-class AddItemToCardView(LoginRequiredMixin,View):
+class AddItemToCardView(LoginRequiredMixin, View):
 
     def get(self, request, id_product):
-        cart, created= Cart.objects.get_or_create(user=request.user)
+        cart, created = Cart.objects.get_or_create(user=request.user)
         ebook = Ebook.objects.get(id=id_product)
         cart.product.add(ebook)
         return redirect('cart')
 
 
-class RemoveItemFromCardView(LoginRequiredMixin,View):
+class RemoveItemFromCardView(LoginRequiredMixin, View):
 
     def get(self, request, id_product):
         cart = Cart.objects.get(user=request.user)
@@ -182,44 +180,45 @@ class RemoveItemFromCardView(LoginRequiredMixin,View):
         return redirect('cart')
 
 
-
-class CartView(LoginRequiredMixin,View):
+class CartView(LoginRequiredMixin, View):
 
     def get(self, request):
         cart, created = Cart.objects.get_or_create(user=request.user)
         total = 0
         for item in cart.product.all():
-            if  item.discount_percent== 0:
+            if item.discount_percent == 0:
                 total += item.price_brutto()
             elif item.discount_percent > 0:
                 total += item.price_brutto_discount()
-        return render(request, 'books/shopping_cart.html', {'cart':cart,'total':total})
+        return render(request, 'books/shopping_cart.html', {'cart': cart, 'total': total})
 
-class OrderView(LoginRequiredMixin,View):
+
+class OrderView(LoginRequiredMixin, View):
 
     def get(self, request):
-        cart= Cart.objects.get(user=request.user)
+        cart = Cart.objects.get(user=request.user)
         order_details = Order.objects.create(
-        user=request.user,
-        total=cart.cart_total()
+            user=request.user,
+            total=cart.cart_total()
         )
         order_details.save()
         order_details.product.set(cart.product.all())
         order_details.save()
         cart.delete()
 
-        return render(request,'books/order_placed.html',context={'order_details':order_details})
+        return render(request, 'books/order_placed.html', context={'order_details': order_details})
 
-class MyEbooks(LoginRequiredMixin,View):
-    def get(self,request):
+
+class MyEbooks(LoginRequiredMixin, View):
+    def get(self, request):
         # order_paid = Order.objects.filter(user=request.user).filter(payment_status=True)
-        return render(request,'books/my_books.html')
+        return render(request, 'books/my_books.html')
 
 
-class OrderHistory(LoginRequiredMixin,View):
-    def get(self,request):
+class OrderHistory(LoginRequiredMixin, View):
+    def get(self, request):
         order_history = Order.objects.filter(user=request.user).order_by('-order_date')
-        return render(request,'books/order_history.html',{'order_history':order_history})
+        return render(request, 'books/order_history.html', {'order_history': order_history})
 
 
 class BestRated(ListView):
@@ -227,17 +226,18 @@ class BestRated(ListView):
     queryset = Ebook.objects.filter(ratings__isnull=False).order_by('-ratings__average')[0:10]
     template_name = 'books/top10.html'
 
-class UserProfile(LoginRequiredMixin,View):
-    def get(self,request):
-      user = User.objects.get(username=request.user)
-      return render(request,'books/user-profile.html',{'user':user})
 
-class UserUpdate(LoginRequiredMixin,UpdateView):
+class UserProfile(LoginRequiredMixin, View):
+    def get(self, request):
+        user = User.objects.get(username=request.user)
+        return render(request, 'books/user-profile.html', {'user': user})
+
+
+class UserUpdate(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
     template_name = 'books/add_book_form.html'
     success_url = '/user_profile/'
-    # permission_required = 'user.change_user'
 
     def get_object(self, queryset=None):
         return self.request.user

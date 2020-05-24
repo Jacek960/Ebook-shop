@@ -3,35 +3,35 @@
 {% block content %}
     <div class="container">
 
-    <table class="table table-striped">
-  <thead class="thead-dark ">
-    <tr>
-      <th scope="col">Numer zamówienia</th>
-      <th scope="col">Zamówione produkty</th>
-        <th scope="col">Cena</th>
-      <th scope="col">Status zamówienia</th>
-    </tr>
-  </thead>
+        <table class="table table-striped">
+            <thead class="thead-dark ">
+            <tr>
+                <th scope="col">Numer zamówienia</th>
+                <th scope="col">Zamówione produkty</th>
+                <th scope="col">Cena</th>
+                <th scope="col">Status zamówienia</th>
+            </tr>
+            </thead>
 
-        {% for order in order_history %}
-              <tbody>
-    <tr>
-      <th scope="row">{{ order.id }}</th>
-    <td>
-            {% for product in order.product.all  %}
-                <ul>
-      <li>{{ product }} - {{ product.autor }}</li>
-                </ul>
-                {% endfor %}
-    </td>
-      <td>{{ order.total|floatformat:2 }} zł</td>
-      <td>{{ order.payment_status|yesno:"Zapłacone,Oczekuje na płatność" }}</td>
+            {% for order in order_history %}
+                <tbody>
+                <tr>
+                    <th scope="row">{{ order.id }}</th>
+                    <td>
+                        {% for product in order.product.all %}
+                            <ul>
+                                <li>{{ product }} - {{ product.autor }}</li>
+                            </ul>
+                        {% endfor %}
+                    </td>
+                    <td>{{ order.total|floatformat:2 }} zł</td>
+                    <td>{{ order.payment_status|yesno:"Zapłacone,Oczekuje na płatność" }}</td>
                 </tr>
 
 
-        {% endfor %}
-  </tbody>
-</table>
+            {% endfor %}
+            </tbody>
+        </table>
 
     </div>
 {% endblock %}
