@@ -20,7 +20,7 @@ Home Page
 Dashbord
 ![Dashbord page](./img/profile.png)
 Book page
-![Book page](./img/book_info.png)
+![Book page](./img/pagebook.png)
 Basket
 ![Basket page](./img/basket.png)
 Order history
