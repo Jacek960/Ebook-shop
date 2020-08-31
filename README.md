@@ -12,7 +12,7 @@
 * [Contact](#contact)
 
 ## General info
-Websites for selling ebooks
+Website for selling ebooks
 
 ## Screenshots
 Home Page
