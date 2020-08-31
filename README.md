@@ -1,5 +1,5 @@
 # Ebook shop 
-> Websites for selling ebook online
+> Website - ebook store
 
 ## Table of contents
 * [General info](#general-info)
